@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ECECEC;
+            color: #333333;
+            text-align: center;
+        }
+
+        #quiz-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #001F3F;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <h1>Quiz</h1>
+    <p id="question"></p>
+    <button id="option1" onclick="checkAnswer(1)"></button>
+    <button id="option2" onclick="checkAnswer(2)"></button>
+    <button id="option3" onclick="checkAnswer(3)"></button>
+    <button id="option4" onclick="checkAnswer(4)"></button>
+    <button id="play-again" style="display: none;" onclick="restartGame()">Jogar Novamente</button>
+</div>
+
+<script>
+    var currentQuestion = 0;
+    var score = 0;
+
+    var questions = [
+        { question: "Qual é a capital do Brasil?", options: ["Rio de Janeiro", "São Paulo", "Brasília", "Belo Horizonte"], answer: 3 },
+        // Adicione mais perguntas conforme necessário
+    ];
+
+    function displayQuestion() {
+        var questionData = questions[currentQuestion];
+        document.getElementById("question").innerText = questionData.question;
+        for (var i = 1; i <= 4; i++) {
+            document.getElementById("option" + i).innerText = questionData.options[i - 1];
+        }
+    }
+
+    function checkAnswer(answer) {
+        var correctAnswer = questions[currentQuestion].answer;
+        if (answer === correctAnswer) {
+            score++;
+        }
+
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+            displayQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        var message = (score === questions.length) ?
+            "Parabéns, você é um ótimo namorado, merece uma massagem." :
+            "Você precisa melhorar, ou será castigado.";
+
+        alert("Score final: " + score + "/" + questions.length + "\n\n" + message);
+        document.getElementById("play-again").style.display = "block";
+    }
+
+    function restartGame() {
+        currentQuestion = 0;
+        score = 0;
+        displayQuestion();
+        document.getElementById("play-again").style.display = "none";
+    }
+
+    // Exibindo a primeira pergunta ao carregar a página
+    displayQuestion();
+</script>
+
+</body>
+</html>
